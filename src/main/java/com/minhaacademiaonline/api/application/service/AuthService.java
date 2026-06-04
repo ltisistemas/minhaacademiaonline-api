@@ -1,6 +1,5 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.Exceptions.*;
 import com.minhaacademiaonline.api.application.interfaces.*;
 import com.minhaacademiaonline.api.application.utils.DateUtils;
 import com.minhaacademiaonline.api.domain.dtos.*;
@@ -11,12 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
 
+    private TenantRegistrationOrchestrator orchestrator;
     private final ITenantService _tenantService;
     private final PlanService _planServicce;
     private final UserService _userService;
@@ -28,65 +27,17 @@ public class AuthService implements IAuthService {
 
     @Override
     @Transactional
-    public AuthRegisterResponseDto signUp(AuthRegisterRequestDto req) {
-        Plan plan = _planServicce.findById(req.selectedPlan());
+    public AuthSignUpResponseDto signUp(AuthSignUpRequestDto req) {
+        AuthResultSignUp authResult = orchestrator.register(req);
 
-        Tenant.TenantPaidStatus paidStatus = plan.getFee().equals(BigDecimal.ZERO)
-                ? Tenant.TenantPaidStatus.PAID
-                : Tenant.TenantPaidStatus.PENDING;
-
-        // Salvar o Tenant
-        Tenant tenant = _tenantService.create(
-                new TenantCreateDto(
-                        plan,
-                        req.legalName(),
-                        req.tradeName(),
-                        req.nif(),
-                        paidStatus
-                )
+        String token = _tokenService.generateToken(
+                authResult.tenant().getId(),
+                authResult.user().getId(),
+                authResult.tenant().getSubdomain(),
+                authResult.user().getName()
         );
 
-        // Salvar o Usuário
-        User user = _userService.create(
-                new UserCreateRequestDto(
-                        req.userEmail(),
-                        req.userName(),
-                        req.userPassword()
-                )
-        );
-
-        // Associaar Usuario ao Tenant
-        _tenantService.userAssign(
-                new UserTenantAssignCreateDto(
-                        user,
-                        tenant,
-                        UserTenant.UserRole.OWNER
-                )
-        );
-
-        // Verifica se é um plano pago
-        SubscriptionCreateResponseDto subscription = null;
-        if (paidStatus == Tenant.TenantPaidStatus.PENDING) {
-            subscription = _subscriptionService.create(new SubscriptionCreateRequestDto(
-                    tenant,
-                    plan.getFee(),
-                    DateUtils.getNextBusinessDay(),
-                    Subscription.SubscriptionStatus.PENDING
-            ));
-        }
-
-        // Devolve o usuário Logado
-        String access_token = _tokenService.generateToken(tenant.getId(), user.getId(), tenant.getSubdomain(), user.getUsername());
-        return new AuthRegisterResponseDto(
-                user.getId(),
-                user.getName(),
-                user.getUsername(),
-                access_token,
-                tenant.getId(),
-                tenant.getTradeName(),
-                tenant.getSubdomain(),
-                subscription != null ? subscription.id() : null
-        );
+        return _authMapper.toSignUpResponse(authResult, token, authResult.subscription());
     }
 
     @Override

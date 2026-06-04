@@ -3,7 +3,7 @@ package com.minhaacademiaonline.api.domain.dtos;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record AuthRegisterRequestDto(
+public record AuthSignUpRequestDto(
         UUID selectedPlan,
         BigDecimal fee,
 

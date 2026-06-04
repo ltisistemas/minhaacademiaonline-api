@@ -54,5 +54,10 @@ public class Plan {
         INACTIVE
     }
 
+    public Tenant.TenantPaidStatus getPaidStatus() {
+        return fee.equals(BigDecimal.ZERO)
+                ? Tenant.TenantPaidStatus.PAID
+                : Tenant.TenantPaidStatus.PENDING;
+    }
 
 }

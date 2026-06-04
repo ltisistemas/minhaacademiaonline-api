@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ISubscriptionService {
-    SubscriptionCreateResponseDto create(SubscriptionCreateRequestDto req);
+    Subscription create(SubscriptionCreateRequestDto req);
 
     Optional<Subscription> findFirstByTenantIdAndStatusOrderByCreatedAtDesc(UUID tenantId,
                                                                             Subscription.SubscriptionStatus status);

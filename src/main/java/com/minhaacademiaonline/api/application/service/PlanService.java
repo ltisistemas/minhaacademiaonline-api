@@ -3,6 +3,7 @@ package com.minhaacademiaonline.api.application.service;
 import com.minhaacademiaonline.api.domain.dtos.PlanCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Plan;
 import com.minhaacademiaonline.api.infra.repositories.PlanRepository;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class PlanService {
         return _repository.findAll();
     }
 
-    public Plan findById(UUID id) {
-        return _repository.findPlanById(id).orElseThrow(() -> new RuntimeException("Plan not Found"));
+    public @Nullable  Plan findById(UUID id) {
+        return _repository.findPlanById(id).orElse(null);
     }
 }

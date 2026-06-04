@@ -1,8 +1,8 @@
 package com.minhaacademiaonline.api.application.controllers;
 
 import com.minhaacademiaonline.api.application.interfaces.IAuthService;
-import com.minhaacademiaonline.api.domain.dtos.AuthRegisterRequestDto;
-import com.minhaacademiaonline.api.domain.dtos.AuthRegisterResponseDto;
+import com.minhaacademiaonline.api.domain.dtos.AuthSignUpRequestDto;
+import com.minhaacademiaonline.api.domain.dtos.AuthSignUpResponseDto;
 import com.minhaacademiaonline.api.domain.dtos.AuthSignInRequestDto;
 import com.minhaacademiaonline.api.domain.dtos.AuthSignInResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AuthController {
     private final IAuthService _service;
 
     @PostMapping("sign-up")
-    public AuthRegisterResponseDto signUp(@RequestBody AuthRegisterRequestDto req) {
+    public AuthSignUpResponseDto signUp(@RequestBody AuthSignUpRequestDto req) {
         return _service.signUp(req);
     }
 
