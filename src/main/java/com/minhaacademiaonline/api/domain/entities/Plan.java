@@ -54,5 +54,5 @@ public class Plan {
         INACTIVE
     }
 
-    public
+
 }

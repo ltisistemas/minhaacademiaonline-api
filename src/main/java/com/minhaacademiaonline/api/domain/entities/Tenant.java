@@ -92,4 +92,10 @@ public class Tenant {
         slug = slug + "-" + UUID.randomUUID().toString().substring(0,4);
         return slug;
     }
+
+    public TenantPaidStatus getPaidStatus() {
+        return plan.getFee().equals(BigDecimal.ZERO)
+                ? TenantPaidStatus.PAID
+                : TenantPaidStatus.PENDING;
+    }
 }

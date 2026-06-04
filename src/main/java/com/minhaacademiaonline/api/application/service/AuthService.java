@@ -1,9 +1,7 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.interfaces.IAuthService;
-import com.minhaacademiaonline.api.application.interfaces.ISubscriptionService;
-import com.minhaacademiaonline.api.application.interfaces.ITenantService;
-import com.minhaacademiaonline.api.application.interfaces.ITokenService;
+import com.minhaacademiaonline.api.application.Exceptions.*;
+import com.minhaacademiaonline.api.application.interfaces.*;
 import com.minhaacademiaonline.api.application.utils.DateUtils;
 import com.minhaacademiaonline.api.domain.dtos.*;
 import com.minhaacademiaonline.api.domain.entities.*;
@@ -25,8 +23,11 @@ public class AuthService implements IAuthService {
     private final ISubscriptionService _subscriptionService;
     private final ITokenService _tokenService;
     private final PasswordEncoder _passwordEncoder;
+    private final AuthAuthenticator _authAuthenticator;
+    private final AuthMapper _authMapper;
 
     @Override
+    @Transactional
     public AuthRegisterResponseDto signUp(AuthRegisterRequestDto req) {
         Plan plan = _planServicce.findById(req.selectedPlan());
 
@@ -91,40 +92,25 @@ public class AuthService implements IAuthService {
     @Override
     @Transactional(readOnly = true)
     public AuthSignInResponseDto signIn(AuthSignInRequestDto req) {
-        Tenant tenant = _tenantService.findTenantBySubdomain(req.subdomain());
-        if (tenant == null) {
-            throw new RuntimeException("Tenant not found");
-        }
+        AuthResult authResult = _authAuthenticator.authenticate(req);
 
-        User user = _userService.loadUserByUsername(req.username());
-        if (user != null) {
-            if (_passwordEncoder.matches(req.password(), user.getPassword())) {
-                String access_token = _tokenService.generateToken(tenant.getId(), user.getId(), tenant.getSubdomain(), user.getUsername());
+        String token = _tokenService.generateToken(
+                authResult.tenant().getId(),
+                authResult.user().getId(),
+                req.subdomain(),
+                authResult.user().getName()
+        );
 
-                Tenant.TenantPaidStatus paidStatus = tenant.getPlan().getFee().equals(BigDecimal.ZERO)
-                        ? Tenant.TenantPaidStatus.PAID
-                        : Tenant.TenantPaidStatus.PENDING;
+        Subscription subscription = getSubscription(authResult.tenant());
 
-                    UUID subscriptionId = _subscriptionService
-                        .findFirstByTenantIdAndStatusOrderByCreatedAtDesc(tenant.getId(), Subscription.SubscriptionStatus.PENDING)
-                        .map(Subscription::getId)
-                        .orElse(null);
+        return _authMapper.toSignInResponse(authResult,token,subscription);
+    }
 
-                return new AuthSignInResponseDto(
-                        user.getId(),
-                        user.getName(),
-                        user.getUsername(),
-                        access_token,
-                        tenant.getId(),
-                        tenant.getTradeName(),
-                        tenant.getSubdomain(),
-                        subscriptionId
-                );
-            }
-
-            throw new RuntimeException("[002] Username or Passowrd is invalid");
-        }
-
-        throw new RuntimeException("[001] Username or Passowrd is invalid");
+    private Subscription getSubscription(Tenant tenant) {
+        return tenant.getPaidStatus() == Tenant.TenantPaidStatus.PENDING
+                ? _subscriptionService
+                    .findFirstByTenantIdAndStatusOrderByCreatedAtDesc(tenant.getId(), Subscription.SubscriptionStatus.PENDING)
+                    .orElse(null)
+                : null;
     }
 }
