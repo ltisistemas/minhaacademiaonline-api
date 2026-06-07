@@ -1,34 +1,26 @@
 package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.application.interfaces.*;
-import com.minhaacademiaonline.api.application.utils.DateUtils;
 import com.minhaacademiaonline.api.domain.dtos.*;
 import com.minhaacademiaonline.api.domain.entities.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService implements IAuthService {
 
-    private TenantRegistrationOrchestrator orchestrator;
-    private final ITenantService _tenantService;
-    private final PlanService _planServicce;
-    private final UserService _userService;
+    private final TenantRegistrationOrchestrator _orchestrator;
     private final ISubscriptionService _subscriptionService;
     private final ITokenService _tokenService;
-    private final PasswordEncoder _passwordEncoder;
     private final AuthAuthenticator _authAuthenticator;
     private final AuthMapper _authMapper;
 
     @Override
     @Transactional
     public AuthSignUpResponseDto signUp(AuthSignUpRequestDto req) {
-        AuthResultSignUp authResult = orchestrator.register(req);
+        AuthResultSignUp authResult = _orchestrator.register(req);
 
         String token = _tokenService.generateToken(
                 authResult.tenant().getId(),
@@ -49,7 +41,7 @@ public class AuthService implements IAuthService {
                 authResult.tenant().getId(),
                 authResult.user().getId(),
                 req.subdomain(),
-                authResult.user().getName()
+                authResult.user().getUsername()
         );
 
         Subscription subscription = getSubscription(authResult.tenant());

@@ -1,6 +1,7 @@
 package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.application.Exceptions.PlanNotFoundException;
+import com.minhaacademiaonline.api.application.interfaces.AuthMapper;
 import com.minhaacademiaonline.api.application.interfaces.ISubscriptionService;
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
 import com.minhaacademiaonline.api.application.utils.DateUtils;
@@ -19,7 +20,7 @@ public class TenantRegistrationOrchestrator {
     private final PlanService _planServicce;
     private final UserService _userService;
     private final ISubscriptionService _subscriptionService;
-    private final PasswordEncoder _passwordEncoder;
+    private final AuthMapper _authMapper;
 
     AuthResultSignUp register(AuthSignUpRequestDto req) {
         Plan plan = Optional
@@ -39,8 +40,8 @@ public class TenantRegistrationOrchestrator {
 
         User user = _userService.create(
                 new UserCreateRequestDto(
-                        req.userEmail(),
                         req.userName(),
+                        req.userEmail(),
                         req.userPassword()
                 )
         );
@@ -54,14 +55,16 @@ public class TenantRegistrationOrchestrator {
                 )
         );
 
-        Subscription subscription = null;
+        SubscriptionDto subscription = null;
         if (paidStatus == Tenant.TenantPaidStatus.PENDING) {
-            subscription = Optional.ofNullable(_subscriptionService.create(new SubscriptionCreateRequestDto(
+            var sub = _subscriptionService.create(new SubscriptionCreateRequestDto(
                     tenant,
                     plan.getFee(),
                     DateUtils.getNextBusinessDay(),
                     Subscription.SubscriptionStatus.PENDING
-            ))).orElse(null);
+            ));
+
+            subscription = _authMapper.toSubscription(sub);
         }
 
         return new AuthResultSignUp(tenant, user, subscription);

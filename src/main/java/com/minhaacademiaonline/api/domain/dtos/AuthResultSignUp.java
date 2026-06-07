@@ -9,5 +9,5 @@ import jakarta.annotation.Nullable;
 import java.util.Optional;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record AuthResultSignUp(Tenant tenant, User user, Subscription subscription) {
+public record AuthResultSignUp(Tenant tenant, User user, SubscriptionDto subscription) {
 }

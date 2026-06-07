@@ -1,5 +1,6 @@
 package com.minhaacademiaonline.api.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,6 +22,7 @@ public class Subscription {
 
     @OneToOne
     @JoinColumn(name = "tenant_id")
+    @JsonIgnore
     private Tenant tenant; // Qual academia paga?
 
     private BigDecimal amount; // Valor pago (pode ser diferente do plano se houver desconto)

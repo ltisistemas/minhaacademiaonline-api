@@ -1,11 +1,8 @@
 package com.minhaacademiaonline.api.application.interfaces;
 
 //import com.minhaacademiaonline.api.domain.dtos.AuthResult;
-import com.minhaacademiaonline.api.domain.dtos.AuthResultSignUp;
-import com.minhaacademiaonline.api.domain.dtos.AuthSignInResponseDto;
+import com.minhaacademiaonline.api.domain.dtos.*;
 //import com.minhaacademiaonline.api.domain.entities.Subscription;
-import com.minhaacademiaonline.api.domain.dtos.AuthResult;
-import com.minhaacademiaonline.api.domain.dtos.AuthSignUpResponseDto;
 import com.minhaacademiaonline.api.domain.entities.Subscription;
 import org.mapstruct.*;
 
@@ -31,5 +28,12 @@ public interface AuthMapper {
     @Mapping(target = "subdomain", source = "result.tenant.subdomain")
     @Mapping(target = "access_token", source = "accessToken")
     @Mapping(target = "subscription", source = "subscription")
-    AuthSignUpResponseDto toSignUpResponse(AuthResultSignUp result, String accessToken, Subscription subscription);
+    AuthSignUpResponseDto toSignUpResponse(AuthResultSignUp result, String accessToken, SubscriptionDto subscription);
+
+    // Mapeamento para o Subscription
+    @Mapping(target = "id", source = "subscription.id")
+    @Mapping(target = "amount", source = "subscription.amount")
+    @Mapping(target = "nextDueDate", source = "subscription.nextDueDate")
+    @Mapping(target = "status", source = "subscription.status")
+    SubscriptionDto toSubscription(Subscription subscription);
 }
