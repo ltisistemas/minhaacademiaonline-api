@@ -1,6 +1,6 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.domain.dtos.UserCreateRequestDto;
+import com.minhaacademiaonline.api.application.dtos.UserCreateRequestDto;
 import com.minhaacademiaonline.api.domain.entities.User;
 import com.minhaacademiaonline.api.infra.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,8 +1,10 @@
-package com.minhaacademiaonline.api.domain.dtos;
+package com.minhaacademiaonline.api.application.dtos;
+
+import com.minhaacademiaonline.api.domain.entities.Subscription;
 
 import java.util.UUID;
 
-public record AuthSignInResponseDto(
+public record AuthSignUpResponseDto(
         UUID sub,
         String userName,
         String userEmail,
@@ -10,7 +12,5 @@ public record AuthSignInResponseDto(
         UUID tenantId,
         String tradeName,
         String subdomain,
-        SubscriptionDto subscription
-) {
-
-}
+        Subscription subscription
+) {}

@@ -1,7 +1,7 @@
 package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.application.interfaces.ISubscriptionService;
-import com.minhaacademiaonline.api.domain.dtos.SubscriptionCreateRequestDto;
+import com.minhaacademiaonline.api.application.dtos.SubscriptionCreateRequestDto;
 import com.minhaacademiaonline.api.domain.entities.Subscription;
 import com.minhaacademiaonline.api.infra.repositories.SubscriptionRepository;
 import lombok.RequiredArgsConstructor;

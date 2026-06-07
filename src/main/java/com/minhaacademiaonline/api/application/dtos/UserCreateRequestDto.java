@@ -1,4 +1,4 @@
-package com.minhaacademiaonline.api.domain.dtos;
+package com.minhaacademiaonline.api.application.dtos;
 
 public record UserCreateRequestDto(String userName,
                                    String userEmail,

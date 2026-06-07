@@ -1,14 +1,13 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.Exceptions.PlanNotFoundException;
-import com.minhaacademiaonline.api.application.interfaces.AuthMapper;
+import com.minhaacademiaonline.api.application.exceptions.PlanNotFoundException;
+import com.minhaacademiaonline.api.application.dtos.*;
+import com.minhaacademiaonline.api.application.mappers.AuthMapper;
 import com.minhaacademiaonline.api.application.interfaces.ISubscriptionService;
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
 import com.minhaacademiaonline.api.application.utils.DateUtils;
-import com.minhaacademiaonline.api.domain.dtos.*;
 import com.minhaacademiaonline.api.domain.entities.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

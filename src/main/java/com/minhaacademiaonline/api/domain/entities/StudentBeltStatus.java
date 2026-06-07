@@ -20,7 +20,7 @@ public class StudentBeltStatus {
     private Student student;
 
     @ManyToOne
-    private Belts belt;
+    private Belt belt;
 
     private Integer degrees; // 0, 1, 2, 3, 4
 

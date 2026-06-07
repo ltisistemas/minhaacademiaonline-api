@@ -1,7 +1,8 @@
 package com.minhaacademiaonline.api.application.service;
 
+import com.minhaacademiaonline.api.application.dtos.*;
 import com.minhaacademiaonline.api.application.interfaces.*;
-import com.minhaacademiaonline.api.domain.dtos.*;
+import com.minhaacademiaonline.api.application.mappers.AuthMapper;
 import com.minhaacademiaonline.api.domain.entities.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

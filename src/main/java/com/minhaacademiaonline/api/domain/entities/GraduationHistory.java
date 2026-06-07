@@ -27,7 +27,7 @@ public class GraduationHistory {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "belt_id")
-    private Belts belt;
+    private Belt belt;
 
     private Long countFrequence;
 

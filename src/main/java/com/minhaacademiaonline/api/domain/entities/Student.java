@@ -29,7 +29,7 @@ public class Student {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "belt_id")
-    private Belts belt;
+    private Belt belt;
 
     @Column(nullable = false)
     private String name;

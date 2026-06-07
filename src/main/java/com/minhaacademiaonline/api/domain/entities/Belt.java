@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode(of = "id")
-public class Belts {
+public class Belt {
     @Id
     @GeneratedValue(strategy =  GenerationType.UUID)
     private UUID id;

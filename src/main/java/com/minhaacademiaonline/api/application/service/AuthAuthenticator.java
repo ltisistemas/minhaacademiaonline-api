@@ -1,10 +1,10 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.Exceptions.AuthSignException;
-import com.minhaacademiaonline.api.application.Exceptions.TenantNotFoundException;
+import com.minhaacademiaonline.api.application.exceptions.AuthSignException;
+import com.minhaacademiaonline.api.application.exceptions.TenantNotFoundException;
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
-import com.minhaacademiaonline.api.domain.dtos.AuthResult;
-import com.minhaacademiaonline.api.domain.dtos.AuthSignInRequestDto;
+import com.minhaacademiaonline.api.application.dtos.AuthResult;
+import com.minhaacademiaonline.api.application.dtos.AuthSignInRequestDto;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import com.minhaacademiaonline.api.domain.entities.User;
 import lombok.RequiredArgsConstructor;

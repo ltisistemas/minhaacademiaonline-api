@@ -1,23 +1,17 @@
 package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
-import com.minhaacademiaonline.api.domain.dtos.TenantCreateDto;
-import com.minhaacademiaonline.api.domain.dtos.UserTenantAssignCreateDto;
-import com.minhaacademiaonline.api.domain.entities.Plan;
+import com.minhaacademiaonline.api.application.dtos.TenantCreateDto;
+import com.minhaacademiaonline.api.application.dtos.UserTenantAssignCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
-import com.minhaacademiaonline.api.domain.entities.User;
 import com.minhaacademiaonline.api.domain.entities.UserTenant;
 import com.minhaacademiaonline.api.infra.repositories.TenantRepository;
-import com.minhaacademiaonline.api.infra.repositories.UserRepository;
 import com.minhaacademiaonline.api.infra.repositories.UserTenantRepository;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

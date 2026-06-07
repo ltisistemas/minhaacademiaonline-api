@@ -21,7 +21,7 @@ public class BeltRequirement {
     private Tenant tenant; // A regra pertence a esta academia específica
 
     @ManyToOne
-    private Belts belt; // Qual faixa estamos regulando?
+    private Belt belt; // Qual faixa estamos regulando?
 
     private Integer minMonths; // Tempo mínimo (ex: 12 meses)
     private Integer minAttendances; // Frequência mínima necessária (ex: 100 aulas)

@@ -1,11 +1,8 @@
 package com.minhaacademiaonline.api.application.controllers;
 
 import com.minhaacademiaonline.api.application.service.PlanService;
-import com.minhaacademiaonline.api.application.service.TenantService;
-import com.minhaacademiaonline.api.domain.dtos.PlanCreateDto;
-import com.minhaacademiaonline.api.domain.dtos.TenantCreateDto;
+import com.minhaacademiaonline.api.application.dtos.PlanCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Plan;
-import com.minhaacademiaonline.api.domain.entities.Tenant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
