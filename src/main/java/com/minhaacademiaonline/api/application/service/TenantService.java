@@ -4,13 +4,11 @@ import com.minhaacademiaonline.api.application.interfaces.ITenantService;
 import com.minhaacademiaonline.api.adapters.in.web.dto.TenantCreateDto;
 import com.minhaacademiaonline.api.adapters.in.web.dto.UserTenantAssignCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
-import com.minhaacademiaonline.api.domain.entities.TenantCreatedEvent;
 import com.minhaacademiaonline.api.domain.entities.UserTenant;
 import com.minhaacademiaonline.api.infra.repositories.TenantRepository;
 import com.minhaacademiaonline.api.infra.repositories.UserTenantRepository;
 import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +19,7 @@ import java.util.UUID;
 public class TenantService implements ITenantService {
     private final TenantRepository _repository;
     private final UserTenantRepository _userTenantRepository;
-    private final ApplicationEventPublisher _applicationEventPublisher;
+//    private final ApplicationEventPublisher _applicationEventPublisher;
 
     @Override
     public Tenant create(TenantCreateDto req) {
@@ -35,14 +33,14 @@ public class TenantService implements ITenantService {
         ten.setPaidStatus(req.paidStatus());
 
         var tenant = _repository.save(ten);
-        _applicationEventPublisher.publishEvent(
-                new TenantCreatedEvent(
-                        tenant.getId(),
-                        req.plan().getId()
-                )
-        );
+//        _applicationEventPublisher.publishEvent(
+//                new TenantCreatedEvent(
+//                        tenant.getId(),
+//                        req.plan().getId()
+//                )
+//        );
 
-        return _repository.save(ten);
+        return tenant;
     }
 
     public UserTenant userAssign(UserTenantAssignCreateDto req) {
