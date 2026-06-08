@@ -12,14 +12,19 @@
 	<artifactId>api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name/>
-	<description/>
-	<url/>
+	<name>Minha Academia Online API</name>
+	<description>API REST para gerenciamento de academias, usuários, alunos, faixas, presença e autenticação JWT.</description>
+	<url>https://github.com/ltisistemas/minhaacademiaonline-api</url>
 	<licenses>
-		<license/>
+		<license />
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Luiz Felipe Marinho</name>
+			<email>luizltisistemas@gmail.com</email>
+			<organization>LTI Sistemas</organization>
+			<organizationUrl>https://github.com/ltisistemas</organizationUrl>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>
