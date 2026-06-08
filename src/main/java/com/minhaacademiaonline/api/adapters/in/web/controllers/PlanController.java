@@ -1,7 +1,7 @@
-package com.minhaacademiaonline.api.application.controllers;
+package com.minhaacademiaonline.api.adapters.in.web.controllers;
 
 import com.minhaacademiaonline.api.application.service.PlanService;
-import com.minhaacademiaonline.api.application.dtos.PlanCreateDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.PlanCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Plan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

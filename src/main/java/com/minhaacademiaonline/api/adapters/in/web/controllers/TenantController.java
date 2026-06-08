@@ -1,7 +1,7 @@
-package com.minhaacademiaonline.api.application.controllers;
+package com.minhaacademiaonline.api.adapters.in.web.controllers;
 
 import com.minhaacademiaonline.api.application.service.TenantService;
-import com.minhaacademiaonline.api.application.dtos.TenantCreateDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.TenantCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,10 +1,7 @@
-package com.minhaacademiaonline.api.application.dtos;
+package com.minhaacademiaonline.api.adapters.in.web.dto;
 
 import com.minhaacademiaonline.api.domain.entities.Plan;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
-
-import java.math.BigDecimal;
-import java.util.UUID;
 
 public record TenantCreateDto(
         Plan plan,

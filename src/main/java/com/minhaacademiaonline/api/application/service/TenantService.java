@@ -1,8 +1,8 @@
 package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
-import com.minhaacademiaonline.api.application.dtos.TenantCreateDto;
-import com.minhaacademiaonline.api.application.dtos.UserTenantAssignCreateDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.TenantCreateDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.UserTenantAssignCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import com.minhaacademiaonline.api.domain.entities.UserTenant;
 import com.minhaacademiaonline.api.infra.repositories.TenantRepository;

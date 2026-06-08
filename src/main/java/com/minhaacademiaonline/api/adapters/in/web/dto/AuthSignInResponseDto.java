@@ -1,4 +1,4 @@
-package com.minhaacademiaonline.api.application.dtos;
+package com.minhaacademiaonline.api.adapters.in.web.dto;
 
 import java.util.UUID;
 

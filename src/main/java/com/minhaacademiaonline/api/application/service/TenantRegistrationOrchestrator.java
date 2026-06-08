@@ -1,7 +1,7 @@
 package com.minhaacademiaonline.api.application.service;
 
+import com.minhaacademiaonline.api.adapters.in.web.dto.*;
 import com.minhaacademiaonline.api.application.exceptions.PlanNotFoundException;
-import com.minhaacademiaonline.api.application.dtos.*;
 import com.minhaacademiaonline.api.application.mappers.AuthMapper;
 import com.minhaacademiaonline.api.application.interfaces.ISubscriptionService;
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;

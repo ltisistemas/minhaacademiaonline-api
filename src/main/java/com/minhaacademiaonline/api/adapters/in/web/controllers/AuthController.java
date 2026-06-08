@@ -1,10 +1,10 @@
-package com.minhaacademiaonline.api.application.controllers;
+package com.minhaacademiaonline.api.adapters.in.web.controllers;
 
 import com.minhaacademiaonline.api.application.interfaces.IAuthService;
-import com.minhaacademiaonline.api.application.dtos.AuthSignUpRequestDto;
-import com.minhaacademiaonline.api.application.dtos.AuthSignUpResponseDto;
-import com.minhaacademiaonline.api.application.dtos.AuthSignInRequestDto;
-import com.minhaacademiaonline.api.application.dtos.AuthSignInResponseDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.AuthSignUpRequestDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.AuthSignUpResponseDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.AuthSignInRequestDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.AuthSignInResponseDto;
 import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

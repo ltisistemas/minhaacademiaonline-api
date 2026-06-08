@@ -1,6 +1,5 @@
-package com.minhaacademiaonline.api.application.dtos;
+package com.minhaacademiaonline.api.adapters.in.web.dto;
 
-import com.minhaacademiaonline.api.domain.entities.Subscription;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import com.minhaacademiaonline.api.domain.entities.User;
 

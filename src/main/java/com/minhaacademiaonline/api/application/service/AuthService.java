@@ -1,6 +1,6 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.dtos.*;
+import com.minhaacademiaonline.api.adapters.in.web.dto.*;
 import com.minhaacademiaonline.api.application.interfaces.*;
 import com.minhaacademiaonline.api.application.mappers.AuthMapper;
 import com.minhaacademiaonline.api.domain.entities.*;

@@ -1,8 +1,8 @@
 package com.minhaacademiaonline.api.application.mappers;
 
 //import com.minhaacademiaonline.api.domain.dtos.AuthResult;
-import com.minhaacademiaonline.api.application.dtos.*;
 //import com.minhaacademiaonline.api.domain.entities.Subscription;
+import com.minhaacademiaonline.api.adapters.in.web.dto.*;
 import com.minhaacademiaonline.api.domain.entities.Subscription;
 import org.mapstruct.*;
 

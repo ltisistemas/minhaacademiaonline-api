@@ -1,6 +1,6 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.dtos.PlanCreateDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.PlanCreateDto;
 import com.minhaacademiaonline.api.domain.entities.Plan;
 import com.minhaacademiaonline.api.infra.repositories.PlanRepository;
 import jakarta.annotation.Nullable;

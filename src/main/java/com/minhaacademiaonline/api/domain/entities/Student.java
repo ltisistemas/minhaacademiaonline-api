@@ -41,6 +41,9 @@ public class Student {
     @Column(nullable = false)
     private String phonenumber;
 
+    @Enumerated(EnumType.STRING)
+    private StudentStatus status = StudentStatus.PENDING;
+
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private Set<StudentTenant> studentTenants = new HashSet<>();
 
@@ -51,4 +54,11 @@ public class Student {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    public enum StudentStatus {
+        PENDING,
+        ACTIVE,
+        SUSPEND,
+        CANCELED
+    }
 }

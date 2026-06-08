@@ -1,4 +1,4 @@
-package com.minhaacademiaonline.api.application.dtos;
+package com.minhaacademiaonline.api.adapters.in.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
