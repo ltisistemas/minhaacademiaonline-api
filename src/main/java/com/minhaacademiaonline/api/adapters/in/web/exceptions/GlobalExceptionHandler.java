@@ -15,7 +15,6 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
