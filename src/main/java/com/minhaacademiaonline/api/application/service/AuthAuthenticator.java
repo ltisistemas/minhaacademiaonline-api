@@ -1,7 +1,7 @@
 package com.minhaacademiaonline.api.application.service;
 
-import com.minhaacademiaonline.api.application.exceptions.AuthSignException;
-import com.minhaacademiaonline.api.application.exceptions.TenantNotFoundException;
+import com.minhaacademiaonline.api.adapters.in.web.exceptions.AuthSignException;
+import com.minhaacademiaonline.api.adapters.in.web.exceptions.TenantNotFoundException;
 import com.minhaacademiaonline.api.application.interfaces.ITenantService;
 import com.minhaacademiaonline.api.adapters.in.web.dto.AuthResult;
 import com.minhaacademiaonline.api.adapters.in.web.dto.AuthSignInRequestDto;

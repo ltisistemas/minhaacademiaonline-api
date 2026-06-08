@@ -1,10 +1,6 @@
 package com.minhaacademiaonline.api.adapters.in.web.exceptions;
 
 import com.minhaacademiaonline.api.adapters.in.web.dto.ProblemDetail;
-import com.minhaacademiaonline.api.application.exceptions.PlanNotFoundException;
-import com.minhaacademiaonline.api.application.exceptions.TenantNotFoundException;
-import com.minhaacademiaonline.api.application.exceptions.UserEmailExistsException;
-import com.minhaacademiaonline.api.application.exceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
