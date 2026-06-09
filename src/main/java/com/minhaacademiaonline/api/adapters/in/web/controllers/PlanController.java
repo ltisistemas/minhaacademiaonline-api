@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/auth/plans")
+@RequestMapping("api/v1/auth/plans")
 @RequiredArgsConstructor
 public class PlanController {
     private final PlanService _service;

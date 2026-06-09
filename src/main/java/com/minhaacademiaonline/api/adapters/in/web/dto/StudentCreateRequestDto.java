@@ -5,7 +5,7 @@ import com.minhaacademiaonline.api.domain.entities.Belt;
 import java.util.UUID;
 
 public record StudentCreateRequestDto(
-        Belt belt,
+        UUID beltId,
         String subdomain,
         String name,
         String nickname,

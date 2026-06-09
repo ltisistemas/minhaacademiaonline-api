@@ -25,7 +25,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({
             UserNotFoundException.class,
             TenantNotFoundException.class,
-            PlanNotFoundException.class
+            PlanNotFoundException.class,
+            TenantNotFoundException.class,
+            BeltNotFoundException.class
     })
     public ResponseEntity<ProblemDetail> notFoundException(RuntimeException ex, WebRequest req) {
         var status = HttpStatus.NOT_FOUND;

@@ -18,5 +18,10 @@ public interface ITenantService {
     Tenant findTenantBySubdomain(String subdomain);
     Tenant findTenantWithSubscription(UUID id);
     Tenant findTenantWithSubscription(String subdomain);
+
+    String getPublicRegisterStudent(String subdomain);
+
     byte[] generateQrCode(String subdomain, int width, int height) throws WriterException, IOException;
+
+    byte[] generateQrCodeForStudentSignUp(String subdomain, int width, int height) throws WriterException, IOException;
 }
