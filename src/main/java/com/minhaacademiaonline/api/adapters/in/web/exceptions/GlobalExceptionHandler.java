@@ -69,13 +69,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
 
-    // 404
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> notFoundGenericException(Exception ex, WebRequest req) {
-        var status = HttpStatus.NOT_FOUND;
-
-        return new ResponseEntity<>(problemDetail(ex, req, status), status);
-    }
 
     @ExceptionHandler({
             UserNotFoundException.class,
