@@ -47,13 +47,6 @@ public class GlobalExceptionHandler {
 
 
 
-    // 403
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> forbiddenException(Exception ex, WebRequest req) {
-        var status = HttpStatus.FORBIDDEN;
-
-        return new ResponseEntity<>(problemDetail(ex, req, status), status);
-    }
 
 
     @ExceptionHandler({
