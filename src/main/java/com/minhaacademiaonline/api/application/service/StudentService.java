@@ -60,6 +60,7 @@ public class StudentService implements IStudentService {
                     .enrolledAt(LocalDateTime.now())
                     .build();
 
+            sts.getStudentTenants().add(studentTenant);
             return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
         } catch (Exception e) {
             throw new StudentCreateException(e.getMessage());
