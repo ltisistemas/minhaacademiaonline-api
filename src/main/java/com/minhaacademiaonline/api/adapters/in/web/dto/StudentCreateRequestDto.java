@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public record StudentCreateRequestDto(
         Belt belt,
+        String subdomain,
         String name,
         String nickname,
         String username,
