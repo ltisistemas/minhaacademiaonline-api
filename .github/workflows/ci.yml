@@ -5,10 +5,19 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
     - uses: actions/checkout@v4
@@ -23,8 +32,5 @@ jobs:
     - name: Permissões de execução para o Maven Wrapper
       run: chmod +x mvnw
 
-    - name: Build
-      run: ./mvnw clean package -DskipTests
-
-    - name: Testes
-      run: ./mvnw test
+    - name: Build e Testes
+      run: ./mvnw -B -ntp clean verify
