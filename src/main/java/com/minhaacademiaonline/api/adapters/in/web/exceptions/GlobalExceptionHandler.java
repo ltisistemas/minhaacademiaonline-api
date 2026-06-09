@@ -46,13 +46,6 @@ public class GlobalExceptionHandler {
     }
 
 
-    // 401
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> unauthorizedException(Exception ex, WebRequest req) {
-        var status = HttpStatus.UNAUTHORIZED;
-
-        return new ResponseEntity<>(problemDetail(ex, req, status), status);
-    }
 
     // 403
     @ExceptionHandler(Exception.class)
