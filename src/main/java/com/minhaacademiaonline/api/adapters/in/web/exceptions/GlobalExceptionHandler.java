@@ -15,9 +15,71 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> genericException(Exception ex, WebRequest req) {
         var status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+
+    // 501
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> notImplementedException(Exception ex, WebRequest req) {
+        var status = HttpStatus.NOT_IMPLEMENTED;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+    // 502
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> badGatewayException(Exception ex, WebRequest req) {
+        var status = HttpStatus.BAD_GATEWAY;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+    // 503
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> serviceUnavailableException(Exception ex, WebRequest req) {
+        var status = HttpStatus.SERVICE_UNAVAILABLE;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+    // 504
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> gatewayTimeoutException(Exception ex, WebRequest req) {
+        var status = HttpStatus.GATEWAY_TIMEOUT;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+
+    // 400
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> badRequestException(Exception ex, WebRequest req) {
+        var status = HttpStatus.BAD_REQUEST;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+
+    // 401
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> unauthorizedException(Exception ex, WebRequest req) {
+        var status = HttpStatus.UNAUTHORIZED;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+
+    // 403
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> forbiddenException(Exception ex, WebRequest req) {
+        var status = HttpStatus.FORBIDDEN;
+
+        return new ResponseEntity<>(problemDetail(ex, req, status), status);
+    }
+
+    // 404
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> notFoundGenericException(Exception ex, WebRequest req) {
+        var status = HttpStatus.NOT_FOUND;
 
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
@@ -27,7 +89,8 @@ public class GlobalExceptionHandler {
             TenantNotFoundException.class,
             PlanNotFoundException.class,
             TenantNotFoundException.class,
-            BeltNotFoundException.class
+            BeltNotFoundException.class,
+            StudentNotFoundException.class,
     })
     public ResponseEntity<ProblemDetail> notFoundException(RuntimeException ex, WebRequest req) {
         var status = HttpStatus.NOT_FOUND;
@@ -35,7 +98,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
 
-    @ExceptionHandler(UserEmailExistsException.class)
+    @ExceptionHandler({
+            UserEmailExistsException.class,
+            StudentCreateException.class,
+            TenantCreateException.class
+    })
     public ResponseEntity<ProblemDetail> emailExistsException(RuntimeException ex, WebRequest req) {
         var status = HttpStatus.CONFLICT;
 

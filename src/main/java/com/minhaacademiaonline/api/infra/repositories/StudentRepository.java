@@ -9,5 +9,7 @@ import java.util.UUID;
 
 public interface StudentRepository extends JpaRepository<Student, UUID> {
     Optional<Student> findStudentById(UUID id);
+
+    Optional<Student> findStudentByUsername(String username);
     List<Student> findAllByStudentTenantsTenantId(UUID tenantId);
 }

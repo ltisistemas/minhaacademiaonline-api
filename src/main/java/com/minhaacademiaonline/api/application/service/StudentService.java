@@ -10,11 +10,16 @@ import com.minhaacademiaonline.api.application.interfaces.IStudentService;
 import com.minhaacademiaonline.api.application.mappers.StudentMapper;
 import com.minhaacademiaonline.api.domain.entities.Belt;
 import com.minhaacademiaonline.api.domain.entities.Student;
+import com.minhaacademiaonline.api.domain.entities.StudentTenant;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import com.minhaacademiaonline.api.infra.repositories.StudentRepository;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +39,11 @@ public class StudentService implements IStudentService {
             if (tenant == null) throw new TenantNotFoundException("Tenant not found");
             if (belt == null) throw new BeltNotFoundException("Belt not found");
 
+            Student studentSearch = findStudentByUsername(req.username());
+            if (studentSearch != null) {
+                throw new StudentCreateException("Student has exists");
+            }
+
             Student sts = Student
                     .builder()
                     .name(req.name())
@@ -44,9 +54,20 @@ public class StudentService implements IStudentService {
                     .password(_PasswordEncoder.encode(req.password()))
                     .build();
 
+            StudentTenant studentTenant = StudentTenant
+                    .builder()
+                    .student(sts)
+                    .tenant(tenant)
+                    .enrolledAt(LocalDateTime.now())
+                    .build();
+
             return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
         } catch (Exception e) {
             throw new StudentCreateException(e.getMessage());
         }
+    }
+
+    public @Nullable Student findStudentByUsername(String userName) {
+        return _repository.findStudentByUsername(userName).orElse(null);
     }
 }
