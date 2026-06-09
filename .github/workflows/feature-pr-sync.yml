@@ -1,0 +1,133 @@
+name: Feature Branch PR Sync
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  sync-pr:
+    runs-on: ubuntu-latest
+    env:
+      BASE_BRANCH: develop
+      REVIEWER_COPILOT: copilot
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create or Update PR to develop
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const base = process.env.BASE_BRANCH;
+            const headBranch = context.ref.replace('refs/heads/', '');
+            const head = `${owner}:${headBranch}`;
+            const timezone = 'America/Sao_Paulo';
+
+            const pad = (n) => String(n).padStart(2, '0');
+            const now = new Date();
+            const parts = new Intl.DateTimeFormat('en-CA', {
+              timeZone: timezone,
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+              hour: '2-digit',
+              minute: '2-digit',
+              hour12: false
+            }).formatToParts(now);
+
+            const getPart = (type) => parts.find((p) => p.type === type)?.value || '00';
+            const titleDate = `${getPart('year')}-${getPart('month')}-${getPart('day')}`;
+            const titleTime = `${getPart('hour')}:${getPart('minute')}`;
+            const title = `PR ${headBranch} to Develop at ${titleDate} at ${titleTime}`;
+
+            const compare = await github.rest.repos.compareCommits({
+              owner,
+              repo,
+              base,
+              head: headBranch
+            });
+
+            const commits = compare.data.commits || [];
+            const commitLines = commits.length
+              ? commits.map((c) => {
+                  const firstLine = (c.commit.message || '').split('\n')[0];
+                  return `- ${c.sha.substring(0, 7)} | ${firstLine} | by ${c.commit.author?.name || 'unknown'}`;
+                }).join('\n')
+              : '- No commit details available for this push.';
+
+            const author = context.payload.pusher?.name || context.actor;
+
+            const body = [
+              `## Auto PR from ${headBranch} to ${base}`,
+              '',
+              `Author: ${author}`,
+              `Updated at (${timezone}): ${titleDate} ${titleTime}`,
+              '',
+              '### Commits currently in this PR branch',
+              commitLines,
+              '',
+              '> This PR is auto-managed and will be updated on every push to this feature branch.',
+              '> Copilot review requirement should be enforced with Branch Protection on the base branch.'
+            ].join('\n');
+
+            const prs = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'open',
+              head,
+              base,
+              per_page: 1
+            });
+
+            let pr;
+
+            if (prs.data.length > 0) {
+              pr = prs.data[0];
+              await github.rest.pulls.update({
+                owner,
+                repo,
+                pull_number: pr.number,
+                title,
+                body
+              });
+              core.info(`Updated PR #${pr.number}`);
+            } else {
+              pr = (await github.rest.pulls.create({
+                owner,
+                repo,
+                title,
+                head: headBranch,
+                base,
+                body,
+                maintainer_can_modify: true
+              })).data;
+              core.info(`Created PR #${pr.number}`);
+            }
+
+            try {
+              const reviewer = process.env.REVIEWER_COPILOT;
+              if (reviewer) {
+                await github.rest.pulls.requestReviewers({
+                  owner,
+                  repo,
+                  pull_number: pr.number,
+                  reviewers: [reviewer]
+                });
+                core.info(`Requested reviewer: ${reviewer}`);
+              }
+            } catch (error) {
+              core.warning(`Could not request Copilot reviewer automatically: ${error.message}`);
+            }

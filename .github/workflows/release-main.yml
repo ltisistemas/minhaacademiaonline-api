@@ -1,0 +1,107 @@
+name: Release and Tag - Main
+
+on:
+  workflow_run:
+    workflows:
+      - CI Maven
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  release-main:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && (github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'master')
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Create or Update Tag and Release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const wr = context.payload.workflow_run;
+            const sha = wr.head_sha;
+            const shortSha = sha.substring(0, 7);
+            const now = new Date();
+            const y = now.getUTCFullYear();
+            const m = String(now.getUTCMonth() + 1).padStart(2, '0');
+            const d = String(now.getUTCDate()).padStart(2, '0');
+            const h = String(now.getUTCHours()).padStart(2, '0');
+            const min = String(now.getUTCMinutes()).padStart(2, '0');
+
+            const tag = `main-${y}${m}${d}-${h}${min}-${shortSha}`;
+            const releaseName = `Main Release ${y}-${m}-${d} ${h}:${min} UTC`;
+
+            try {
+              await github.rest.git.createRef({
+                owner,
+                repo,
+                ref: `refs/tags/${tag}`,
+                sha
+              });
+              core.info(`Created tag ${tag}`);
+            } catch (error) {
+              if (error.status === 422) {
+                core.info(`Tag ${tag} already exists, continuing.`);
+              } else {
+                throw error;
+              }
+            }
+
+            const body = [
+              `Automated release generated from CI success on branch ${wr.head_branch}.`,
+              '',
+              `Source workflow run: ${wr.html_url}`,
+              `Commit: ${sha}`
+            ].join('\n');
+
+            let existingRelease = null;
+            try {
+              existingRelease = (await github.rest.repos.getReleaseByTag({
+                owner,
+                repo,
+                tag
+              })).data;
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
+
+            if (existingRelease) {
+              await github.rest.repos.updateRelease({
+                owner,
+                repo,
+                release_id: existingRelease.id,
+                name: releaseName,
+                body,
+                target_commitish: sha,
+                draft: false,
+                prerelease: false
+              });
+              core.info(`Updated release for tag ${tag}`);
+            } else {
+              await github.rest.repos.createRelease({
+                owner,
+                repo,
+                tag_name: tag,
+                target_commitish: sha,
+                name: releaseName,
+                body,
+                draft: false,
+                prerelease: false,
+                generate_release_notes: true
+              });
+              core.info(`Created release for tag ${tag}`);
+            }
