@@ -23,13 +23,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
 
-    // 501
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> notImplementedException(Exception ex, WebRequest req) {
-        var status = HttpStatus.NOT_IMPLEMENTED;
-
-        return new ResponseEntity<>(problemDetail(ex, req, status), status);
-    }
     // 502
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> badGatewayException(Exception ex, WebRequest req) {
