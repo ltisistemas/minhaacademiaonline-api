@@ -40,7 +40,7 @@ public class StudentService implements IStudentService {
 
             Student studentSearch = findStudentByUsername(req.username());
             if (studentSearch != null) {
-                throw new StudentCreateException("Student has exists");
+                throw new StudentCreateException("Student already exists");
             }
 
             Student sts = Student
