@@ -45,13 +45,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
 
-    // 400
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> badRequestException(Exception ex, WebRequest req) {
-        var status = HttpStatus.BAD_REQUEST;
-
-        return new ResponseEntity<>(problemDetail(ex, req, status), status);
-    }
 
     // 401
     @ExceptionHandler(Exception.class)
