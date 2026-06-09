@@ -1,0 +1,15 @@
+package com.minhaacademiaonline.api.adapters.in.web.dto;
+
+import com.minhaacademiaonline.api.domain.entities.Belt;
+
+import java.util.UUID;
+
+public record StudentCreateResponseDto(
+        UUID sub,
+        Belt belt,
+        String name,
+        String nickname,
+        String username,
+        String phoneNumber
+) {
+}
