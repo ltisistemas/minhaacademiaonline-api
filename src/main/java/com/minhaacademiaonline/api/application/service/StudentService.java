@@ -2,6 +2,7 @@ package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentCreateRequestDto;
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentCreateResponseDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.StudentFindByIdResponse;
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentTenantCreateRequestDto;
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.BeltNotFoundException;
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.StudentCreateException;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +66,6 @@ public class StudentService implements IStudentService {
                     )
             );
 
-//            sts.getStudentTenants().add(studentTenant);
             return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
         } catch (Exception e) {
             throw new StudentCreateException(e.getMessage());
@@ -73,5 +74,9 @@ public class StudentService implements IStudentService {
 
     public @Nullable Student findStudentByUsername(String userName) {
         return _repository.findStudentByUsername(userName).orElse(null);
+    }
+
+    public @Nullable StudentFindByIdResponse findStudentById(UUID id) {
+        return _repository.findStudentById(id).orElse(null);
     }
 }
