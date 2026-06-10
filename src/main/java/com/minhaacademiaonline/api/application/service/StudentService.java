@@ -13,7 +13,6 @@ import com.minhaacademiaonline.api.application.interfaces.IStudentTenantService;
 import com.minhaacademiaonline.api.application.mappers.StudentMapper;
 import com.minhaacademiaonline.api.domain.entities.Belt;
 import com.minhaacademiaonline.api.domain.entities.Student;
-import com.minhaacademiaonline.api.domain.entities.StudentTenant;
 import com.minhaacademiaonline.api.domain.entities.Tenant;
 import com.minhaacademiaonline.api.infra.repositories.StudentRepository;
 import jakarta.annotation.Nullable;
@@ -58,15 +57,17 @@ public class StudentService implements IStudentService {
                     .password(_PasswordEncoder.encode(req.password()))
                     .build();
 
+            Student student = _repository.save(sts);
+
             _studentTenantService.create(
                     new StudentTenantCreateRequestDto(
                         tenant,
-                        sts,
+                        student,
                         LocalDateTime.now()
                     )
             );
 
-            return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
+            return _mapper.toStudentCreateDtoResponse(student);
         } catch (Exception e) {
             throw new StudentCreateException(e.getMessage());
         }
@@ -76,7 +77,14 @@ public class StudentService implements IStudentService {
         return _repository.findStudentByUsername(userName).orElse(null);
     }
 
-    public @Nullable StudentFindByIdResponse findStudentById(UUID id) {
-        return _repository.findStudentById(id).orElse(null);
+    @Nullable
+    @Override
+    public StudentFindByIdResponse findStudentById(UUID id) {
+//        Student student = _repository.findStudentById(id).orElse(null);
+//        if (student != null) {
+//            Belt belt =
+//        }
+
+        return _mapper.toStudentFindByIdResponse(_repository.findStudentById(id).orElse(null));
     }
 }
