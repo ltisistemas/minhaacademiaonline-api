@@ -7,6 +7,7 @@ import com.minhaacademiaonline.api.adapters.in.web.exceptions.StudentCreateExcep
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.TenantNotFoundException;
 import com.minhaacademiaonline.api.application.interfaces.IBeltService;
 import com.minhaacademiaonline.api.application.interfaces.IStudentService;
+import com.minhaacademiaonline.api.application.interfaces.IStudentTenantService;
 import com.minhaacademiaonline.api.application.mappers.StudentMapper;
 import com.minhaacademiaonline.api.domain.entities.Belt;
 import com.minhaacademiaonline.api.domain.entities.Student;
@@ -26,6 +27,7 @@ public class StudentService implements IStudentService {
     private final StudentRepository _repository;
     private final IBeltService _beltService;
     private final TenantService _tenantService;
+    private final IStudentTenantService _studentTenantService;
     private final StudentMapper _mapper;
     private final PasswordEncoder _PasswordEncoder;
 
@@ -59,6 +61,7 @@ public class StudentService implements IStudentService {
                     .tenant(tenant)
                     .enrolledAt(LocalDateTime.now())
                     .build();
+            _studentTenantService.create(studentTenant)
 
             sts.getStudentTenants().add(studentTenant);
             return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
