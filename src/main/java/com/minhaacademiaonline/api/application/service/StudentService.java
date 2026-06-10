@@ -19,6 +19,7 @@ import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -34,6 +35,7 @@ public class StudentService implements IStudentService {
     private final PasswordEncoder _PasswordEncoder;
 
     @Override
+    @Transactional
     public StudentCreateResponseDto create(StudentCreateRequestDto req) {
         try {
             Tenant tenant = _tenantService.findTenantBySubdomain(req.subdomain());
@@ -80,11 +82,11 @@ public class StudentService implements IStudentService {
     @Nullable
     @Override
     public StudentFindByIdResponse findStudentById(UUID id) {
-//        Student student = _repository.findStudentById(id).orElse(null);
+       Student student = _repository.findStudentById(id).orElse(null);
 //        if (student != null) {
 //            Belt belt =
 //        }
 
-        return _mapper.toStudentFindByIdResponse(_repository.findStudentById(id).orElse(null));
+        return _mapper.toStudentFindByIdResponse(student);
     }
 }
