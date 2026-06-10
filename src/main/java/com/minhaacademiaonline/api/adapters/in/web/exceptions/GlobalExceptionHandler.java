@@ -24,22 +24,22 @@ public class GlobalExceptionHandler {
     }
 
     // 502
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> badGatewayException(Exception ex, WebRequest req) {
+    @ExceptionHandler(BadGatewayException.class)
+    public ResponseEntity<ProblemDetail> badGatewayException(BadGatewayException ex, WebRequest req) {
         var status = HttpStatus.BAD_GATEWAY;
 
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
     // 503
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> serviceUnavailableException(Exception ex, WebRequest req) {
+    @ExceptionHandler(ServiceUnavailableException.class)
+    public ResponseEntity<ProblemDetail> serviceUnavailableException(ServiceUnavailableException ex, WebRequest req) {
         var status = HttpStatus.SERVICE_UNAVAILABLE;
 
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
     }
     // 504
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ProblemDetail> gatewayTimeoutException(Exception ex, WebRequest req) {
+    @ExceptionHandler(GatewayTimeoutException.class)
+    public ResponseEntity<ProblemDetail> gatewayTimeoutException(GatewayTimeoutException ex, WebRequest req) {
         var status = HttpStatus.GATEWAY_TIMEOUT;
 
         return new ResponseEntity<>(problemDetail(ex, req, status), status);
