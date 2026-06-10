@@ -2,6 +2,7 @@ package com.minhaacademiaonline.api.application.service;
 
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentCreateRequestDto;
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentCreateResponseDto;
+import com.minhaacademiaonline.api.adapters.in.web.dto.StudentTenantCreateRequestDto;
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.BeltNotFoundException;
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.StudentCreateException;
 import com.minhaacademiaonline.api.adapters.in.web.exceptions.TenantNotFoundException;
@@ -55,15 +56,15 @@ public class StudentService implements IStudentService {
                     .password(_PasswordEncoder.encode(req.password()))
                     .build();
 
-            StudentTenant studentTenant = StudentTenant
-                    .builder()
-                    .student(sts)
-                    .tenant(tenant)
-                    .enrolledAt(LocalDateTime.now())
-                    .build();
-            _studentTenantService.create(studentTenant)
+            _studentTenantService.create(
+                    new StudentTenantCreateRequestDto(
+                        tenant,
+                        sts,
+                        LocalDateTime.now()
+                    )
+            );
 
-            sts.getStudentTenants().add(studentTenant);
+//            sts.getStudentTenants().add(studentTenant);
             return _mapper.toStudentCreateDtoResponse(_repository.save(sts));
         } catch (Exception e) {
             throw new StudentCreateException(e.getMessage());
