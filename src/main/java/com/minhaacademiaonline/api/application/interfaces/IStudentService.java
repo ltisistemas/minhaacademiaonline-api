@@ -9,7 +9,7 @@ import jakarta.annotation.Nullable;
 import java.util.UUID;
 
 public interface IStudentService {
-    StudentCreateResponseDto create(StudentCreateRequestDto req);
+    StudentCreateResponseDto create(StudentCreateRequestDto req, Student.StudentStatus status);
 
     @Nullable
     StudentFindByIdResponse findStudentById(UUID id);

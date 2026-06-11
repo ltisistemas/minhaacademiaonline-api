@@ -36,7 +36,7 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional
-    public StudentCreateResponseDto create(StudentCreateRequestDto req) {
+    public StudentCreateResponseDto create(StudentCreateRequestDto req, Student.StudentStatus status) {
         try {
             Tenant tenant = _tenantService.findTenantBySubdomain(req.subdomain());
             Belt belt = _beltService.findById(req.beltId());
@@ -57,6 +57,7 @@ public class StudentService implements IStudentService {
                     .nickname(req.nickname())
                     .username(req.username())
                     .password(_PasswordEncoder.encode(req.password()))
+                    .status(status)
                     .build();
 
             Student student = _repository.save(sts);
