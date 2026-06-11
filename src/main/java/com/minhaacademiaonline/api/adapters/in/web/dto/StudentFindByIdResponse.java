@@ -5,22 +5,18 @@ import com.minhaacademiaonline.api.domain.entities.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 public record StudentFindByIdResponse(
-        UUID sub,
-        Tenant tenant,
-        Student student,
+        UUID id,
         String name,
         String nickname,
-        String phoneNumber,
-        Student.StudentStatus status,
-        LocalDate createdAt,
-        LocalDate updatedAt,
-        Belt belt,
-        List<StudentBeltStatus> studentBeltStatus,
-        List<GraduationHistory> graduationHistory,
-        List<Attendance> attendance
-
+        String username,
+        String phonenumber,
+        String status,
+        BeltDto belt,
+        Set<GraduationHistoryDto> graduationHistories,
+        Set<AttendanceDto> attendances
 ) {
 }

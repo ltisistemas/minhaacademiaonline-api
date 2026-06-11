@@ -2,6 +2,7 @@ package com.minhaacademiaonline.api.adapters.in.web.controllers;
 
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentFindByIdResponse;
 import com.minhaacademiaonline.api.application.interfaces.IStudentService;
+import com.minhaacademiaonline.api.domain.entities.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

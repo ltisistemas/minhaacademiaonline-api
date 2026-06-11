@@ -46,7 +46,7 @@ public class StudentService implements IStudentService {
 
             Student studentSearch = findStudentByUsername(req.username());
             if (studentSearch != null) {
-                throw new StudentCreateException("Student already exists");
+                throw new StudentCreateException("Student already exists", null);
             }
 
             Student sts = Student
@@ -70,8 +70,8 @@ public class StudentService implements IStudentService {
             );
 
             return _mapper.toStudentCreateDtoResponse(student);
-        } catch (Exception e) {
-            throw new StudentCreateException(e.getMessage());
+        } catch (RuntimeException e) {
+            throw new StudentCreateException(e.getMessage(), e);
         }
     }
 
@@ -81,11 +81,15 @@ public class StudentService implements IStudentService {
 
     @Nullable
     @Override
+    @Transactional(readOnly = true)
     public StudentFindByIdResponse findStudentById(UUID id) {
-       Student student = _repository.findStudentById(id).orElse(null);
-//        if (student != null) {
-//            Belt belt =
-//        }
+        // Primeira query: Resolve Student, Belt e histórico de graduação
+        Student student = _repository.findByIdWithBeltAndHistory(id).orElse(null);
+
+        if (student != null) {
+            // Segunda query: Alimenta o Persistence Context com as presenças (frequência) na mesma sessão
+            _repository.findByIdWithAttendances(id);
+        }
 
         return _mapper.toStudentFindByIdResponse(student);
     }
