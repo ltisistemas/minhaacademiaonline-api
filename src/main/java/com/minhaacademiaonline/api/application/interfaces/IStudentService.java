@@ -5,7 +5,9 @@ import com.minhaacademiaonline.api.adapters.in.web.dto.StudentCreateResponseDto;
 import com.minhaacademiaonline.api.adapters.in.web.dto.StudentFindByIdResponse;
 import com.minhaacademiaonline.api.domain.entities.Student;
 import jakarta.annotation.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface IStudentService {
@@ -13,4 +15,7 @@ public interface IStudentService {
 
     @Nullable
     StudentFindByIdResponse findStudentById(UUID id);
+
+    @Transactional(readOnly = true)
+    List<StudentFindByIdResponse> findAllByTenantId(UUID tenantId);
 }

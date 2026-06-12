@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -93,5 +95,28 @@ public class StudentService implements IStudentService {
         }
 
         return _mapper.toStudentFindByIdResponse(student);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<StudentFindByIdResponse> findAllByTenantId(UUID tenantId) {
+        Tenant tenant = _tenantService.findById(tenantId);
+        if (tenant == null) {
+            throw new TenantNotFoundException("Tenant not found");
+        }
+
+        List<Student> students = _repository.findAllByTenantIdWithBeltAndHistory(tenantId);
+
+        if (students.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Alimenta o Persistence Context com as presenças (frequência) para todos os alunos em uma única query
+        List<UUID> studentIds = students.stream().map(Student::getId).toList();
+        _repository.findAllByIdInWithAttendances(studentIds);
+
+        return students.stream()
+                .map(_mapper::toStudentFindByIdResponse)
+                .toList();
     }
 }

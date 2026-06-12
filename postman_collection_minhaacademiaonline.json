@@ -1,0 +1,417 @@
+{
+    "info": {
+        "_postman_id": "8f8b9c6f-a4d0-4a60-b8b5-8f2f5d8d2d11",
+        "name": "Minha Academia Online API",
+        "description": "Collection gerada a partir dos controllers da API.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8080"
+        },
+        {
+            "key": "token",
+            "value": ""
+        },
+        {
+            "key": "subdomain",
+            "value": "minha-academia"
+        },
+        {
+            "key": "selectedPlanId",
+            "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+            "key": "tenantId",
+            "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+            "key": "studentId",
+            "value": "00000000-0000-0000-0000-000000000000"
+        },
+        {
+            "key": "beltId",
+            "value": "00000000-0000-0000-0000-000000000000"
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Sign Up",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"selectedPlan\": \"{{selectedPlanId}}\",\n  \"fee\": 129.90,\n  \"legalName\": \"Academia Exemplo LTDA\",\n  \"tradeName\": \"Academia Exemplo\",\n  \"nif\": \"123456789\",\n  \"userName\": \"admin\",\n  \"userEmail\": \"admin@academia.com\",\n  \"userPassword\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/sign-up",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "sign-up"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Sign In",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "let data = {};",
+                                    "try { data = pm.response.json(); } catch (e) {}",
+                                    "if (data.access_token) pm.collectionVariables.set('token', data.access_token);",
+                                    "if (data.subdomain) pm.collectionVariables.set('subdomain', data.subdomain);",
+                                    "if (data.tenantId) pm.collectionVariables.set('tenantId', data.tenantId);"
+                                ]
+                            }
+                        }
+                    ],
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"subdomain\": \"{{subdomain}}\",\n  \"username\": \"admin\",\n  \"password\": \"123456\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/sign-in",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "sign-in"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Plans",
+            "item": [
+                {
+                    "name": "Create Plan",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"Plano Premium\",\n  \"content\": \"Acesso completo\",\n  \"maxStudents\": 100,\n  \"fee\": 199.90\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/plans",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "plans"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Plans",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/plans",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "plans"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Tenants",
+            "item": [
+                {
+                    "name": "Create Tenant",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"plan\": {\n    \"id\": \"{{selectedPlanId}}\"\n  },\n  \"legalName\": \"Academia Filial LTDA\",\n  \"tradeName\": \"Academia Filial\",\n  \"nif\": \"987654321\",\n  \"paidStatus\": \"PENDING\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/tenants",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "tenants"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Students",
+            "item": [
+                {
+                    "name": "Create Student By Teacher",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"beltId\": \"{{beltId}}\",\n  \"subdomain\": \"{{subdomain}}\",\n  \"name\": \"Aluno Exemplo\",\n  \"nickname\": \"aluno\",\n  \"username\": \"aluno1\",\n  \"password\": \"123456\",\n  \"phoneNumber\": \"+244900000000\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/student/create-student-by-teacher",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "student",
+                                "create-student-by-teacher"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Find Student By Id",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/student/{{studentId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "student",
+                                "{{studentId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "List Students By Tenant",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/student/list-students/{{tenantId}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "student",
+                                "list-students",
+                                "{{tenantId}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Student Self Sign Up",
+                    "request": {
+                        "auth": {
+                            "type": "noauth"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"beltId\": \"{{beltId}}\",\n  \"subdomain\": \"{{subdomain}}\",\n  \"name\": \"Aluno AutoCadastro\",\n  \"nickname\": \"auto\",\n  \"username\": \"aluno_auto\",\n  \"password\": \"123456\",\n  \"phoneNumber\": \"+244900000001\"\n}"
+                        },
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/student-self/sing-up",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "student-self",
+                                "sing-up"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "QR Code",
+            "item": [
+                {
+                    "name": "Get Tenant QR Code",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "image/png"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/qr-code/get-tenant/{{subdomain}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "qr-code",
+                                "get-tenant",
+                                "{{subdomain}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Student Sign Up QR Code",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "image/png"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/api/v1/auth/qr-code/get-student-sign-up/{{subdomain}}",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "api",
+                                "v1",
+                                "auth",
+                                "qr-code",
+                                "get-student-sign-up",
+                                "{{subdomain}}"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

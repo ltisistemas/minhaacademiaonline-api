@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,4 +27,10 @@ public class StudentController {
     public ResponseEntity<StudentCreateResponseDto> createStudentByTeacher(@RequestBody StudentCreateRequestDto req) {
         return ResponseEntity.ok(_service.create(req, Student.StudentStatus.ACTIVE));
     }
+
+    @GetMapping("list-students/{tenantId}")
+    public ResponseEntity<List<StudentFindByIdResponse>> findAllByTenantId(@PathVariable UUID tenantId) {
+        return ResponseEntity.ok(_service.findAllByTenantId(tenantId));
+    }
+    
 }

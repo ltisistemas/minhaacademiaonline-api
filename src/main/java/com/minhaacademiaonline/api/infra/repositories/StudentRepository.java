@@ -25,4 +25,22 @@ public interface StudentRepository extends JpaRepository<Student, UUID> {
             "LEFT JOIN FETCH s.attendances " +
             "WHERE s.id = :id")
     Optional<Student> findByIdWithAttendances(@Param("id") UUID id);
+
+    @Query("""
+        SELECT DISTINCT s
+        FROM Student s
+        JOIN s.studentTenants st
+        LEFT JOIN FETCH s.belt
+        LEFT JOIN FETCH s.graduationHistories
+        WHERE st.tenant.id = :tenantId
+    """)
+    List<Student> findAllByTenantIdWithBeltAndHistory(@Param("tenantId") UUID tenantId);
+
+    @Query("""
+        SELECT DISTINCT s
+        FROM Student s
+        LEFT JOIN FETCH s.attendances
+        WHERE s.id IN :ids
+    """)
+    List<Student> findAllByIdInWithAttendances(@Param("ids") List<UUID> ids);
 }
