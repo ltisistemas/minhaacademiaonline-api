@@ -47,6 +47,11 @@ public class Student {
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private Set<StudentTenant> studentTenants = new HashSet<>();
 
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private Set<GraduationHistory> graduationHistories = new HashSet<>();
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private Set<Attendance> attendances = new HashSet<>();
+
     @CreationTimestamp
     @Column(name="created_at")
     private LocalDateTime createdAt;

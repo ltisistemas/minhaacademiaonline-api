@@ -1,6 +1,7 @@
 package com.minhaacademiaonline.api.adapters.in.web.dto;
 
 import com.minhaacademiaonline.api.domain.entities.Belt;
+import com.minhaacademiaonline.api.domain.entities.Student;
 
 import java.util.UUID;
 

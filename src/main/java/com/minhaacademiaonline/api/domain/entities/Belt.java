@@ -1,5 +1,6 @@
 package com.minhaacademiaonline.api.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +24,7 @@ public class Belt {
     @GeneratedValue(strategy =  GenerationType.UUID)
     private UUID id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "belt")
     private Set<Student> students = new HashSet<>();
 
